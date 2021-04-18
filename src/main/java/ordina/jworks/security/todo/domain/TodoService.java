@@ -23,6 +23,9 @@ public class TodoService {
         if (task.getId() != null) {
             throw new IllegalArgumentException("You can't create a new task!");
         }
+        if (task.getDescription() == null || task.getDescription().isBlank()) {
+            throw new IllegalArgumentException("You can't create a new task!");
+        }
 
         return this.facade.create(task);
     }
