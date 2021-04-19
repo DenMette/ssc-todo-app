@@ -1,5 +1,7 @@
 package ordina.jworks.security.todo.web.in.resource;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Objects;
 
 /**
@@ -8,6 +10,8 @@ import java.util.Objects;
  */
 public class CreateTodoResource {
 
+    @NotNull
+    @Size(min = 3, message = "The task should be at least 3 characters long.")
     private String description;
 
     public CreateTodoResource() {

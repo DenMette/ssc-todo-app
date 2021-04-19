@@ -12,45 +12,53 @@
 <body>
 
 <div class="container mt-5">
-    <div class="row mb-3">
-        <div class="col text-center">
-            <h1>Your tasks</h1>
-        </div>
-    </div>
-
-    <section class="card col-9 mx-auto">
-        <form class="card-header" method="post" th:action="@{/todo}" th:object="${newTask}">
-            <div class="input-group">
-                <input type="text" class="form-control" placeholder="Task" aria-label="New task" th:field="${newTask.description}">
-                <button class="btn btn-primary" type="submit" id="add">
-                    <i class="bi bi-plus"></i>
-                </button>
+    <div class="col-9 mx-auto">
+        <div class="row mb-3">
+            <div class="col text-center">
+                <h1>Your tasks</h1>
             </div>
-        </form>
-        <ul class="list-group list-group-flush">
-            <li th:each="task : ${tasks}" class="list-group-item">
-                    <div class="input-group">
-                        <form th:action="@{/todo/__${task.id}__/complete}" method="post">
-                            <input type="hidden" name="id" th:value="${task.id}" />
-                            <button class="btn btn-success" type="submit" id="button-completed" th:disabled="${task.completed}">
-                                <i class="bi bi-check"></i>
-                            </button>
-                        </form>
-                        <!--<div class="input-group-text">-->
-                        <!-- <input class="form-check-input mt-0" type="checkbox" th:checked="${task.completed}" aria-label="Checkbox for following text input">-->
-                        <!--</div>-->
-                        <div class="form-control" th:text="${task.description}" th:classappend="${task.completed} ? 'text-decoration-line-through' : ''"></div>
-                        <form th:action="@{/todo/__${task.id}__/delete}" method="post">
-                            <input type="hidden" name="id" th:value="${task.id}" />
-                            <button class="btn btn-danger" type="submit" id="button-delete">
-                                <i class="bi bi-trash"></i>
-                            </button>
-                        </form>
+        </div>
+
+        <div th:if="${flash}" class="alert alert-success" role="alert" th:text="${flash}">
+            A simple success alert—check it out!
+        </div>
+
+        <section class="card">
+            <form class="card-header needs-validation" method="post" th:action="@{/todo}" th:object="${newTask}">
+                <div class="input-group">
+                    <input type="text" class="form-control" th:classappend="${#fields.hasErrors('description')} ? 'is-invalid'" placeholder="Task" aria-label="New task" name="description" th:field="*{description}">
+                    <button class="btn btn-primary" type="submit" id="add">
+                        <i class="bi bi-plus"></i>
+                    </button>
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">
+                        Please choose a username.
                     </div>
-                </form>
-            </li>
-        </ul>
-    </section>
+                </div>
+            </form>
+            <ul class="list-group list-group-flush">
+                <li th:each="task : ${tasks}" class="list-group-item">
+                        <div class="input-group">
+                            <form th:action="@{/todo/__${task.id}__/complete}" method="post">
+                                <input type="hidden" name="id" th:value="${task.id}" />
+                                <button class="btn btn-success" type="submit" id="button-completed" th:disabled="${task.completed}">
+                                    <i class="bi bi-check"></i>
+                                </button>
+                            </form>
+
+                            <div class="form-control" th:text="${task.description}" th:classappend="${task.completed} ? 'text-decoration-line-through' : ''"></div>
+
+                            <form th:action="@{/todo/__${task.id}__/delete}" method="post">
+                                <input type="hidden" name="id" th:value="${task.id}" />
+                                <button class="btn btn-danger" type="submit" id="button-delete">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </form>
+                </li>
+            </ul>
+        </section>
+    </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>

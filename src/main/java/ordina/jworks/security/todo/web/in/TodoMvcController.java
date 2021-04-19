@@ -4,9 +4,14 @@ import ordina.jworks.security.todo.domain.TodoService;
 import ordina.jworks.security.todo.domain.model.Todo;
 import ordina.jworks.security.todo.web.in.mapper.TodoResourceMapper;
 import ordina.jworks.security.todo.web.in.resource.CreateTodoResource;
+import ordina.jworks.security.todo.web.in.resource.TodoResource;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.validation.Valid;
+import java.util.List;
 
 /**
  * @author Maarten Casteels
@@ -24,16 +29,29 @@ public class TodoMvcController {
         this.mapper = mapper;
     }
 
-    @GetMapping({"", "/", "/index"})
-    public String allTodo(Model model) {
-        model.addAttribute("tasks", this.mapper.mapModelsToResources(service.allTasks()));
-        model.addAttribute("newTask", new CreateTodoResource());
+    @ModelAttribute("newTask")
+    CreateTodoResource newTask() {
+        return new CreateTodoResource();
+    }
+
+    @ModelAttribute("tasks")
+    List<TodoResource> tasks() {
+        return this.mapper.mapModelsToResources(service.allTasks());
+    }
+
+    @GetMapping({"", "/"})
+    public String allTodo() {
         return "index";
     }
 
-    @PostMapping({"", "/", "/index"})
-    public String saveTask(@ModelAttribute CreateTodoResource resource) {
+    @PostMapping({"", "/"})
+    public String saveTask(@Valid @ModelAttribute("newTask") CreateTodoResource resource, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            return "index";
+        }
+
         this.service.createTask(this.mapper.mapResourceToModel(resource));
+        redirectAttributes.addFlashAttribute("flash", "Task has been added.");
         return "redirect:/todo";
     }
 
