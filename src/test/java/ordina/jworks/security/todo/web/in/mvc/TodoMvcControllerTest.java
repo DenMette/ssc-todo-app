@@ -45,6 +45,13 @@ class TodoMvcControllerTest {
     class GettingTodo {
 
         @Test
+        void root_redirects_to_todo_page() throws Exception {
+            mockMvc.perform(get("/"))
+                   .andExpect(status().is3xxRedirection())
+                   .andExpect(redirectedUrl("/todo"));
+        }
+
+        @Test
         void get_empty_list() throws Exception {
             mockMvc.perform(get("/todo"))
                     .andDo(print())

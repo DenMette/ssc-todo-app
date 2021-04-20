@@ -4,6 +4,7 @@ import ordina.jworks.security.todo.domain.TodoService;
 import ordina.jworks.security.todo.web.in.mapper.TodoResourceMapper;
 import ordina.jworks.security.todo.web.in.resource.CreateTodoResource;
 import ordina.jworks.security.todo.web.in.resource.TodoResource;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,15 +31,9 @@ public class TodoRestController {
         this.mapper = mapper;
     }
 
-    @GetMapping({"", "/"})
-    public ResponseEntity<List<TodoResource>> all() {
-        final List<TodoResource> resources = this.mapper.mapModelsToResources(service.allTasks());
-
-        if (resources.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        }
-
-        return ResponseEntity.ok(resources);
+    @GetMapping
+    public List<TodoResource> all() {
+        return this.mapper.mapModelsToResources(service.allTasks());
     }
 
     @PostMapping({"", "/"})
@@ -50,22 +45,20 @@ public class TodoRestController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TodoResource> findById(@PathVariable("id") UUID id) {
-        return ResponseEntity.ok(this.mapper.mapModelToResource(this.service.findTaskById(id)));
+    public TodoResource findById(@PathVariable("id") UUID id) {
+        return this.mapper.mapModelToResource(this.service.findTaskById(id));
     }
 
     @PutMapping("/{id}/complete")
-    public ResponseEntity<TodoResource> completeTaskById(@PathVariable("id") UUID id) {
-        return ResponseEntity.ok(
-                this.mapper.mapModelToResource(
+    public TodoResource completeTaskById(@PathVariable("id") UUID id) {
+        return this.mapper.mapModelToResource(
                         this.service.completeTask(
-                                this.service.findTaskById(id))));
+                                this.service.findTaskById(id)));
     }
 
-    @DeleteMapping("/{id}/remove")
-    public ResponseEntity<TodoResource> removeTaskById(@PathVariable("id") UUID id) {
-        this.service.findTaskById(id);
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void removeTaskById(@PathVariable("id") UUID id) {
         this.service.removeTaskById(id);
-        return ResponseEntity.noContent().build();
     }
 }

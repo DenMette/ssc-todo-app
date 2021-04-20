@@ -54,10 +54,10 @@ class TodoRestControllerIntegrationTest {
     class GettingAllTodo {
 
         @Test
-        void no_content_when_no_task_were_found() throws Exception {
+        void empty_list_when_no_task_were_found() throws Exception {
             mockMvc.perform(get("/api/todo").contentType(MediaType.APPLICATION_JSON))
-                    .andExpect(status().isNoContent())
-                    .andExpect(jsonPath("$").doesNotHaveJsonPath())
+                    .andExpect(status().isOk())
+                    .andExpect(content().json("[]"))
             ;
         }
 
@@ -105,9 +105,9 @@ class TodoRestControllerIntegrationTest {
                             .content(objectMapper.writeValueAsString(new CreateTodoResource("Test"))))
                     .andExpect(status().isCreated())
                     .andExpect(header().string("Location", startsWith("http://localhost/api/todo/")))
-                    .andExpect(jsonPath("$.id").isString())
-                    .andExpect(jsonPath("$.description").value("Test"))
-                    .andExpect(jsonPath("$.completed").value(false))
+                    .andExpect(jsonPath("id").isString())
+                    .andExpect(jsonPath("description").value("Test"))
+                    .andExpect(jsonPath("completed").value(false))
             ;
         }
 
@@ -168,9 +168,9 @@ class TodoRestControllerIntegrationTest {
                             .content(objectMapper.writeValueAsString(new CreateTodoResource("ABC"))))
                     .andExpect(status().isCreated())
                     .andExpect(header().string("Location", startsWith("http://localhost/api/todo/")))
-                    .andExpect(jsonPath("$.id").isString())
-                    .andExpect(jsonPath("$.description").value("ABC"))
-                    .andExpect(jsonPath("$.completed").value(false))
+                    .andExpect(jsonPath("id").isString())
+                    .andExpect(jsonPath("description").value("ABC"))
+                    .andExpect(jsonPath("completed").value(false))
             ;
         }
     }
@@ -188,9 +188,9 @@ class TodoRestControllerIntegrationTest {
                             .contentType(MediaType.APPLICATION_JSON)
                             .accept(MediaType.APPLICATION_JSON))
                     .andExpect(status().isOk())
-                    .andExpect(jsonPath("$.id").isString())
-                    .andExpect(jsonPath("$.description").value("Simple Task"))
-                    .andExpect(jsonPath("$.completed").value(true))
+                    .andExpect(jsonPath("id").isString())
+                    .andExpect(jsonPath("description").value("Simple Task"))
+                    .andExpect(jsonPath("completed").value(true))
             ;
         }
     }
@@ -204,7 +204,7 @@ class TodoRestControllerIntegrationTest {
             final TodoEntity task = insertTask();
 
             mockMvc.perform(
-                    delete("/api/todo/" + task.getId() + "/remove")
+                    delete("/api/todo/" + task.getId())
                             .contentType(MediaType.APPLICATION_JSON)
                             .accept(MediaType.APPLICATION_JSON))
                     .andExpect(status().isNoContent())

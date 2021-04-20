@@ -40,12 +40,12 @@ public class TodoMvcController {
         return this.mapper.mapModelsToResources(service.allTasks());
     }
 
-    @GetMapping({"", "/"})
+    @GetMapping
     public String allTodo() {
         return "index";
     }
 
-    @PostMapping({"", "/"})
+    @PostMapping
     public String saveTask(@Valid @ModelAttribute("newTask") CreateTodoResource resource, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             return "index";
