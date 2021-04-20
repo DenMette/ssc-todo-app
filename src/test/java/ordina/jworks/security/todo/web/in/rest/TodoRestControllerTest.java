@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import ordina.jworks.security.todo.domain.TodoService;
 import ordina.jworks.security.todo.domain.model.Todo;
 import ordina.jworks.security.todo.persistence.jpa.TodoRepository;
-import ordina.jworks.security.todo.web.in.mapper.TodoResourceMapper;
+import ordina.jworks.security.todo.web.in.mapper.TodoResourceMapperImpl;
 import ordina.jworks.security.todo.web.in.resource.CreateTodoResource;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -28,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @author Maarten Casteels
  */
 @WebMvcTest
-@Import(TodoResourceMapper.class)
+@Import(TodoResourceMapperImpl.class)
 class TodoRestControllerTest {
     public static final String UUID_AS_STRING = "7483adfe-6e3d-4323-985d-9fcd9bc3fd52";
     public static final UUID ID = UUID.fromString(UUID_AS_STRING);
@@ -44,7 +44,6 @@ class TodoRestControllerTest {
 
     @MockBean
     TodoRepository repository;
-
 
     @Nested
     @DisplayName("Get tasks")

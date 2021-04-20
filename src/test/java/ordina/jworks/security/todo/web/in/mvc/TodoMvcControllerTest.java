@@ -2,7 +2,7 @@ package ordina.jworks.security.todo.web.in.mvc;
 
 import ordina.jworks.security.todo.domain.TodoService;
 import ordina.jworks.security.todo.persistence.jpa.TodoRepository;
-import ordina.jworks.security.todo.web.in.mapper.TodoResourceMapper;
+import ordina.jworks.security.todo.web.in.mapper.TodoResourceMapperImpl;
 import ordina.jworks.security.todo.web.in.resource.CreateTodoResource;
 import ordina.jworks.security.todo.web.in.resource.TodoResource;
 import org.junit.jupiter.api.DisplayName;
@@ -27,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @since 2021
  */
 @WebMvcTest
-@Import(TodoResourceMapper.class)
+@Import(TodoResourceMapperImpl.class)
 class TodoMvcControllerTest {
     public static final String UUID_AS_STRING = "7483adfe-6e3d-4323-985d-9fcd9bc3fd52";
 

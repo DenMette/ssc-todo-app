@@ -1,5 +1,7 @@
 package ordina.jworks.security.todo.domain.model;
 
+import ordina.jworks.security.todo.Default;
+
 import java.util.Objects;
 import java.util.UUID;
 
@@ -13,6 +15,7 @@ public class Todo {
     private final String description;
     private final boolean completed;
 
+    @Default
     public Todo(UUID id, String description, boolean completed) {
         this.id = id;
         this.description = description;
