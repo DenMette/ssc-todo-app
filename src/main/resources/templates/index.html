@@ -47,8 +47,8 @@
 
                             <div class="form-control" th:text="${task.description}" th:classappend="${task.completed} ? 'text-decoration-line-through' : ''"></div>
 
-                            <form th:action="@{/todo/__${task.id}__/delete}" method="post">
-                                <input type="hidden" name="id" th:value="${task.id}" />
+                            <form th:action="@{/todo/__${task.id}__/remove}" method="post">
+                                <input type="hidden" name="id" th:value="${task.id}"/>
                                 <button class="btn btn-danger" type="submit" id="button-delete">
                                     <i class="bi bi-trash"></i>
                                 </button>

@@ -1,6 +1,7 @@
 package ordina.jworks.security.todo.domain;
 
 import ordina.jworks.security.todo.domain.model.Todo;
+import ordina.jworks.security.todo.exception.ValidationException;
 import ordina.jworks.security.todo.persistence.TodoPersistenceFacade;
 import org.junit.jupiter.api.*;
 import org.mockito.Mockito;
@@ -59,7 +60,7 @@ class TodoServiceTest {
                 // Act
                 service.createTask(task);
                 fail("should fail");
-            } catch (IllegalArgumentException e) {
+            } catch (ValidationException e) {
                 // Assert
                 assertThat(e).hasMessage("You can't create a new task!");
             }
@@ -75,7 +76,7 @@ class TodoServiceTest {
                 // Act
                 service.createTask(task);
                 fail("should fail");
-            } catch (IllegalArgumentException e) {
+            } catch (ValidationException e) {
                 // Assert
                 assertThat(e).hasMessage("You can't create a new task!");
             }

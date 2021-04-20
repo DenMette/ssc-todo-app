@@ -1,6 +1,8 @@
 package ordina.jworks.security.todo.domain;
 
 import ordina.jworks.security.todo.domain.model.Todo;
+import ordina.jworks.security.todo.exception.RecordNotFoundException;
+import ordina.jworks.security.todo.exception.ValidationException;
 import ordina.jworks.security.todo.persistence.TodoPersistenceFacade;
 import org.springframework.stereotype.Service;
 
@@ -21,10 +23,10 @@ public class TodoService {
 
     public Todo createTask(final Todo task) {
         if (task.getId() != null) {
-            throw new IllegalArgumentException("You can't create a new task!");
+            throw new ValidationException("You can't create a new task!");
         }
         if (task.getDescription() == null || task.getDescription().isBlank()) {
-            throw new IllegalArgumentException("You can't create a new task!");
+            throw new ValidationException("You can't create a new task!");
         }
 
         return this.facade.create(task);
@@ -32,7 +34,7 @@ public class TodoService {
 
     public Todo completeTask(final Todo task) {
         if (task.getId() == null) {
-            throw new IllegalArgumentException("You can't complete the task!");
+            throw new ValidationException("You can't complete the task!");
         }
 
         return this.facade.complete(task);
@@ -43,7 +45,7 @@ public class TodoService {
     }
 
     public Todo findTaskById(Long id) {
-        return this.facade.findById(id).orElseThrow(() -> new IllegalArgumentException("No task found."));
+        return this.facade.findById(id).orElseThrow(() -> new RecordNotFoundException("No task found."));
     }
 
     public void removeTaskById(Long id) {

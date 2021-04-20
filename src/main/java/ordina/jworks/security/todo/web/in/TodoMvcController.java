@@ -51,23 +51,25 @@ public class TodoMvcController {
         }
 
         this.service.createTask(this.mapper.mapResourceToModel(resource));
-        redirectAttributes.addFlashAttribute("flash", "Task has been added.");
+        redirectAttributes.addFlashAttribute("task-created", "Task has been created.");
         return "redirect:/todo";
     }
 
     @PostMapping("/{id}/complete")
-    public String complete(@PathVariable("id") Long id) {
+    public String complete(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
         final Todo todo = this.service.findTaskById(id);
         this.service.completeTask(todo);
 
+        redirectAttributes.addFlashAttribute("task-completed", "The task has been marked completed.");
         return "redirect:/todo";
     }
 
-    @PostMapping("/{id}/delete")
-    public String delete(@PathVariable("id") Long id) {
+    @PostMapping("/{id}/remove")
+    public String remove(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
         this.service.findTaskById(id);
         this.service.removeTaskById(id);
 
+        redirectAttributes.addFlashAttribute("task-removed", "The task has been removed.");
         return "redirect:/todo";
     }
 }
