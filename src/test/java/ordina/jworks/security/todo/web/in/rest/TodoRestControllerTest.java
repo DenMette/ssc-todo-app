@@ -51,10 +51,10 @@ class TodoRestControllerTest {
     class GettingAllTodo {
 
         @Test
-        void no_content_when_no_task_were_found() throws Exception {
+        void empty_list_when_no_tasks_were_found() throws Exception {
             mockMvc.perform(get("/api/todo").contentType(MediaType.APPLICATION_JSON))
-                    .andExpect(status().isNoContent())
-                    .andExpect(jsonPath("$").doesNotHaveJsonPath())
+                    .andExpect(status().isOk())
+                    .andExpect(content().json("[]"))
             ;
         }
 
@@ -82,9 +82,9 @@ class TodoRestControllerTest {
 
             mockMvc.perform(get("/api/todo/" + UUID_AS_STRING).contentType(MediaType.APPLICATION_JSON))
                     .andExpect(status().isOk())
-                    .andExpect(jsonPath("$.id").value(UUID_AS_STRING))
-                    .andExpect(jsonPath("$.description").value("Test"))
-                    .andExpect(jsonPath("$.completed").value(false))
+                    .andExpect(jsonPath("id").value(UUID_AS_STRING))
+                    .andExpect(jsonPath("description").value("Test"))
+                    .andExpect(jsonPath("completed").value(false))
             ;
         }
     }
@@ -105,9 +105,9 @@ class TodoRestControllerTest {
                     .andExpect(status().isCreated())
                     .andExpect(header().string("Location", "http://localhost/api/todo/" + UUID_AS_STRING))
                     .andExpect(redirectedUrl("http://localhost/api/todo/" + UUID_AS_STRING))
-                    .andExpect(jsonPath("$.id").value(UUID_AS_STRING))
-                    .andExpect(jsonPath("$.description").value("Test"))
-                    .andExpect(jsonPath("$.completed").value(false))
+                    .andExpect(jsonPath("id").value(UUID_AS_STRING))
+                    .andExpect(jsonPath("description").value("Test"))
+                    .andExpect(jsonPath("completed").value(false))
             ;
         }
 
@@ -171,9 +171,9 @@ class TodoRestControllerTest {
                     .andExpect(status().isCreated())
                     .andExpect(header().string("Location", "http://localhost/api/todo/" + UUID_AS_STRING))
                     .andExpect(redirectedUrl("http://localhost/api/todo/" + UUID_AS_STRING))
-                    .andExpect(jsonPath("$.id").value(UUID_AS_STRING))
-                    .andExpect(jsonPath("$.description").value("ABC"))
-                    .andExpect(jsonPath("$.completed").value(false))
+                    .andExpect(jsonPath("id").value(UUID_AS_STRING))
+                    .andExpect(jsonPath("description").value("ABC"))
+                    .andExpect(jsonPath("completed").value(false))
             ;
         }
     }
@@ -193,9 +193,9 @@ class TodoRestControllerTest {
                             .contentType(MediaType.APPLICATION_JSON)
                             .accept(MediaType.APPLICATION_JSON))
                     .andExpect(status().isOk())
-                    .andExpect(jsonPath("$.id").value(UUID_AS_STRING))
-                    .andExpect(jsonPath("$.description").value("ABC"))
-                    .andExpect(jsonPath("$.completed").value(true))
+                    .andExpect(jsonPath("id").value(UUID_AS_STRING))
+                    .andExpect(jsonPath("description").value("ABC"))
+                    .andExpect(jsonPath("completed").value(true))
             ;
         }
     }
@@ -207,7 +207,7 @@ class TodoRestControllerTest {
         @Test
         void remove_task_with_redirect() throws Exception {
             mockMvc.perform(
-                    delete("/api/todo/" + UUID_AS_STRING + "/remove")
+                    delete("/api/todo/" + UUID_AS_STRING)
                             .contentType(MediaType.APPLICATION_JSON)
                             .accept(MediaType.APPLICATION_JSON))
                     .andExpect(status().isNoContent())
