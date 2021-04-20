@@ -1,4 +1,4 @@
-package ordina.jworks.security.todo.web.in;
+package ordina.jworks.security.todo.web.in.mvc;
 
 import ordina.jworks.security.todo.exception.RecordNotFoundException;
 import ordina.jworks.security.todo.persistence.jpa.TodoRepository;

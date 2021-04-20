@@ -1,4 +1,4 @@
-package ordina.jworks.security.todo.web.in;
+package ordina.jworks.security.todo.web.in.mvc;
 
 import ordina.jworks.security.todo.domain.TodoService;
 import ordina.jworks.security.todo.persistence.jpa.TodoRepository;
