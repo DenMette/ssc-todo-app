@@ -29,6 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest
 @Import(TodoResourceMapper.class)
 class TodoMvcControllerTest {
+    public static final String UUID_AS_STRING = "7483adfe-6e3d-4323-985d-9fcd9bc3fd52";
 
     @Autowired
     MockMvc mockMvc;
@@ -131,7 +132,7 @@ class TodoMvcControllerTest {
         @Test
         void complete_task_with_redirect() throws Exception {
             mockMvc.perform(
-                    post("/todo/1/complete"))
+                    post("/todo/" + UUID_AS_STRING + "/complete"))
                     .andExpect(status().is3xxRedirection())
                     .andExpect(redirectedUrl("/todo"))
                     .andExpect(view().name("redirect:/todo"))
@@ -147,7 +148,7 @@ class TodoMvcControllerTest {
         @Test
         void remove_task_with_redirect() throws Exception {
             mockMvc.perform(
-                    post("/todo/1/remove"))
+                    post("/todo/" + UUID_AS_STRING + "/remove"))
                     .andExpect(status().is3xxRedirection())
                     .andExpect(redirectedUrl("/todo"))
                     .andExpect(view().name("redirect:/todo"))

@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Min;
 import java.net.URI;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @author Maarten Casteels
@@ -50,12 +50,12 @@ public class TodoRestController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TodoResource> findById(@Min(1) @PathVariable("id") Long id) {
+    public ResponseEntity<TodoResource> findById(@PathVariable("id") UUID id) {
         return ResponseEntity.ok(this.mapper.mapModelToResource(this.service.findTaskById(id)));
     }
 
     @PutMapping("/{id}/complete")
-    public ResponseEntity<TodoResource> completeTaskById(@Min(1) @PathVariable("id") Long id) {
+    public ResponseEntity<TodoResource> completeTaskById(@PathVariable("id") UUID id) {
         return ResponseEntity.ok(
                 this.mapper.mapModelToResource(
                         this.service.completeTask(
@@ -63,7 +63,7 @@ public class TodoRestController {
     }
 
     @DeleteMapping("/{id}/remove")
-    public ResponseEntity<TodoResource> removeTaskById(@Min(1) @PathVariable("id") Long id) {
+    public ResponseEntity<TodoResource> removeTaskById(@PathVariable("id") UUID id) {
         this.service.findTaskById(id);
         this.service.removeTaskById(id);
         return ResponseEntity.noContent().build();

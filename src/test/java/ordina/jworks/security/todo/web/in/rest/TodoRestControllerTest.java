@@ -19,6 +19,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
+import java.util.UUID;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -29,6 +30,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest
 @Import(TodoResourceMapper.class)
 class TodoRestControllerTest {
+    public static final String UUID_AS_STRING = "7483adfe-6e3d-4323-985d-9fcd9bc3fd52";
+    public static final UUID ID = UUID.fromString(UUID_AS_STRING);
+
     @Autowired
     MockMvc mockMvc;
 
@@ -40,6 +44,7 @@ class TodoRestControllerTest {
 
     @MockBean
     TodoRepository repository;
+
 
     @Nested
     @DisplayName("Get tasks")
@@ -55,12 +60,12 @@ class TodoRestControllerTest {
 
         @Test
         void one_element_in_the_list() throws Exception {
-            Mockito.when(todoService.allTasks()).thenReturn(List.of(new Todo(1L, "Test", false)));
+            Mockito.when(todoService.allTasks()).thenReturn(List.of(new Todo(ID, "Test", false)));
 
             mockMvc.perform(get("/api/todo").contentType(MediaType.APPLICATION_JSON))
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("$").isArray())
-                    .andExpect(jsonPath("$[0].id").value(1L))
+                    .andExpect(jsonPath("$[0].id").value(UUID_AS_STRING))
                     .andExpect(jsonPath("$[0].description").value("Test"))
                     .andExpect(jsonPath("$[0].completed").value(false))
             ;
@@ -73,11 +78,11 @@ class TodoRestControllerTest {
 
         @Test
         void one_element() throws Exception {
-            Mockito.when(todoService.findTaskById(1L)).thenReturn(new Todo(1L, "Test", false));
+            Mockito.when(todoService.findTaskById(ID)).thenReturn(new Todo(ID, "Test", false));
 
-            mockMvc.perform(get("/api/todo/1").contentType(MediaType.APPLICATION_JSON))
+            mockMvc.perform(get("/api/todo/" + UUID_AS_STRING).contentType(MediaType.APPLICATION_JSON))
                     .andExpect(status().isOk())
-                    .andExpect(jsonPath("$.id").value(1L))
+                    .andExpect(jsonPath("$.id").value(UUID_AS_STRING))
                     .andExpect(jsonPath("$.description").value("Test"))
                     .andExpect(jsonPath("$.completed").value(false))
             ;
@@ -90,7 +95,7 @@ class TodoRestControllerTest {
 
         @Test
         void task_created() throws Exception {
-            Mockito.when(todoService.createTask(new Todo("Test"))).thenReturn(new Todo(1L, "Test", false));
+            Mockito.when(todoService.createTask(new Todo("Test"))).thenReturn(new Todo(ID, "Test", false));
 
             mockMvc.perform(
                     post("/api/todo")
@@ -98,9 +103,9 @@ class TodoRestControllerTest {
                             .accept(MediaType.APPLICATION_JSON)
                             .content(objectMapper.writeValueAsString(new CreateTodoResource("Test"))))
                     .andExpect(status().isCreated())
-                    .andExpect(header().string("Location", "http://localhost/api/todo/1"))
-                    .andExpect(redirectedUrl("http://localhost/api/todo/1"))
-                    .andExpect(jsonPath("$.id").value(1L))
+                    .andExpect(header().string("Location", "http://localhost/api/todo/" + UUID_AS_STRING))
+                    .andExpect(redirectedUrl("http://localhost/api/todo/" + UUID_AS_STRING))
+                    .andExpect(jsonPath("$.id").value(UUID_AS_STRING))
                     .andExpect(jsonPath("$.description").value("Test"))
                     .andExpect(jsonPath("$.completed").value(false))
             ;
@@ -156,7 +161,7 @@ class TodoRestControllerTest {
 
         @Test
         void task_description_has_valid_size_3() throws Exception {
-            Mockito.when(todoService.createTask(new Todo("ABC"))).thenReturn(new Todo(1L, "ABC", false));
+            Mockito.when(todoService.createTask(new Todo("ABC"))).thenReturn(new Todo(ID, "ABC", false));
 
             mockMvc.perform(
                     post("/api/todo")
@@ -164,9 +169,9 @@ class TodoRestControllerTest {
                             .accept(MediaType.APPLICATION_JSON)
                             .content(objectMapper.writeValueAsString(new CreateTodoResource("ABC"))))
                     .andExpect(status().isCreated())
-                    .andExpect(header().string("Location", "http://localhost/api/todo/1"))
-                    .andExpect(redirectedUrl("http://localhost/api/todo/1"))
-                    .andExpect(jsonPath("$.id").value(1L))
+                    .andExpect(header().string("Location", "http://localhost/api/todo/" + UUID_AS_STRING))
+                    .andExpect(redirectedUrl("http://localhost/api/todo/" + UUID_AS_STRING))
+                    .andExpect(jsonPath("$.id").value(UUID_AS_STRING))
                     .andExpect(jsonPath("$.description").value("ABC"))
                     .andExpect(jsonPath("$.completed").value(false))
             ;
@@ -179,16 +184,16 @@ class TodoRestControllerTest {
 
         @Test
         void complete_task_with_redirect() throws Exception {
-            final Todo task = new Todo(1L, "ABC", false);
-            Mockito.when(todoService.findTaskById(1L)).thenReturn(task);
-            Mockito.when(todoService.completeTask(task)).thenReturn(new Todo(1L, "ABC", true));
+            final Todo task = new Todo(ID, "ABC", false);
+            Mockito.when(todoService.findTaskById(ID)).thenReturn(task);
+            Mockito.when(todoService.completeTask(task)).thenReturn(new Todo(ID, "ABC", true));
 
             mockMvc.perform(
-                    put("/api/todo/1/complete")
+                    put("/api/todo/" + UUID_AS_STRING + "/complete")
                             .contentType(MediaType.APPLICATION_JSON)
                             .accept(MediaType.APPLICATION_JSON))
                     .andExpect(status().isOk())
-                    .andExpect(jsonPath("$.id").value(1L))
+                    .andExpect(jsonPath("$.id").value(UUID_AS_STRING))
                     .andExpect(jsonPath("$.description").value("ABC"))
                     .andExpect(jsonPath("$.completed").value(true))
             ;
@@ -202,7 +207,7 @@ class TodoRestControllerTest {
         @Test
         void remove_task_with_redirect() throws Exception {
             mockMvc.perform(
-                    delete("/api/todo/1/remove")
+                    delete("/api/todo/" + UUID_AS_STRING + "/remove")
                             .contentType(MediaType.APPLICATION_JSON)
                             .accept(MediaType.APPLICATION_JSON))
                     .andExpect(status().isNoContent())

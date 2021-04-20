@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
@@ -49,12 +50,12 @@ public class TodoPersistenceJpaService implements TodoPersistenceFacade {
     }
 
     @Override
-    public Optional<Todo> findById(Long id) {
+    public Optional<Todo> findById(UUID id) {
         return this.repository.findById(id).map(mapper::mapEntityToModel);
     }
 
     @Override
-    public void removeById(Long id) {
+    public void removeById(UUID id) {
         this.repository.deleteById(id);
     }
 }

@@ -31,6 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 class TodoMvcControllerIntegrationTest {
+    public static final String UUID_AS_STRING = "7483adfe-6e3d-4323-985d-9fcd9bc3fd52";
 
     @Autowired
     MockMvc mockMvc;
@@ -166,7 +167,7 @@ class TodoMvcControllerIntegrationTest {
         @Test
         void complete_task_that_does_not_exists() throws Exception {
             mockMvc.perform(
-                    post("/todo/1/complete"))
+                    post("/todo/" + UUID_AS_STRING + "/complete"))
                     .andExpect(status().is2xxSuccessful())
                     .andExpect(result ->
                             assertThat(result.getResolvedException())
@@ -198,7 +199,7 @@ class TodoMvcControllerIntegrationTest {
         @Test
         void remove_task_that_does_not_exists() throws Exception {
             mockMvc.perform(
-                    post("/todo/1/remove"))
+                    post("/todo/" + UUID_AS_STRING + "/remove"))
                     .andExpect(status().is2xxSuccessful())
                     .andExpect(result ->
                             assertThat(result.getResolvedException())

@@ -12,6 +12,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @author Maarten Casteels
@@ -56,7 +57,7 @@ public class TodoMvcController {
     }
 
     @PostMapping("/{id}/complete")
-    public String complete(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
+    public String complete(@PathVariable("id") UUID id, RedirectAttributes redirectAttributes) {
         final Todo todo = this.service.findTaskById(id);
         this.service.completeTask(todo);
 
@@ -65,7 +66,7 @@ public class TodoMvcController {
     }
 
     @PostMapping("/{id}/remove")
-    public String remove(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
+    public String remove(@PathVariable("id") UUID id, RedirectAttributes redirectAttributes) {
         this.service.findTaskById(id);
         this.service.removeTaskById(id);
 

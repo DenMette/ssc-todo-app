@@ -6,6 +6,8 @@ import ordina.jworks.security.todo.persistence.TodoPersistenceFacade;
 import org.junit.jupiter.api.*;
 import org.mockito.Mockito;
 
+import java.util.UUID;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
 
@@ -39,7 +41,7 @@ class TodoServiceTest {
         void it_should_be_possible_to_create_a_task() {
             // Arrange
             final Todo task = new Todo("task 1");
-            final Todo mockedTask = new Todo(1L, "task 1", false);
+            final Todo mockedTask = new Todo(UUID.randomUUID(), "task 1", false);
             Mockito.when(facade.create(task)).thenReturn(mockedTask);
 
             // Act
@@ -54,7 +56,7 @@ class TodoServiceTest {
         @DisplayName("It isn't possible to create a task with an ID")
         void it_is_not_possible_to_create_a_task_with_an_id() {
             // Arrange
-            final Todo task = new Todo(1L, "task 1", false);
+            final Todo task = new Todo(UUID.randomUUID(), "task 1", false);
 
             try {
                 // Act

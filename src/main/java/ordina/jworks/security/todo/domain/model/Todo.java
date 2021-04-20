@@ -1,6 +1,7 @@
 package ordina.jworks.security.todo.domain.model;
 
 import java.util.Objects;
+import java.util.UUID;
 
 /**
  * @author Maarten Casteels
@@ -8,11 +9,11 @@ import java.util.Objects;
  */
 public class Todo {
 
-    private final Long id;
+    private final UUID id;
     private final String description;
     private final boolean completed;
 
-    public Todo(Long id, String description, boolean completed) {
+    public Todo(UUID id, String description, boolean completed) {
         this.id = id;
         this.description = description;
         this.completed = completed;
@@ -24,7 +25,7 @@ public class Todo {
         this.completed = false;
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 

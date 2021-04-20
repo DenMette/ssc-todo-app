@@ -68,7 +68,7 @@ class TodoRestControllerIntegrationTest {
             mockMvc.perform(get("/api/todo").contentType(MediaType.APPLICATION_JSON))
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("$").isArray())
-                    .andExpect(jsonPath("$[0].id").isNumber())
+                    .andExpect(jsonPath("$[0].id").isString())
                     .andExpect(jsonPath("$[0].description").value("Simple Task"))
                     .andExpect(jsonPath("$[0].completed").value(false))
             ;
@@ -85,7 +85,7 @@ class TodoRestControllerIntegrationTest {
 
             mockMvc.perform(get("/api/todo/" + task.getId()).contentType(MediaType.APPLICATION_JSON))
                     .andExpect(status().isOk())
-                    .andExpect(jsonPath("$.id").isNumber())
+                    .andExpect(jsonPath("$.id").isString())
                     .andExpect(jsonPath("$.description").value("Simple Task"))
                     .andExpect(jsonPath("$.completed").value(false))
             ;
@@ -105,7 +105,7 @@ class TodoRestControllerIntegrationTest {
                             .content(objectMapper.writeValueAsString(new CreateTodoResource("Test"))))
                     .andExpect(status().isCreated())
                     .andExpect(header().string("Location", startsWith("http://localhost/api/todo/")))
-                    .andExpect(jsonPath("$.id").isNumber())
+                    .andExpect(jsonPath("$.id").isString())
                     .andExpect(jsonPath("$.description").value("Test"))
                     .andExpect(jsonPath("$.completed").value(false))
             ;
@@ -168,7 +168,7 @@ class TodoRestControllerIntegrationTest {
                             .content(objectMapper.writeValueAsString(new CreateTodoResource("ABC"))))
                     .andExpect(status().isCreated())
                     .andExpect(header().string("Location", startsWith("http://localhost/api/todo/")))
-                    .andExpect(jsonPath("$.id").isNumber())
+                    .andExpect(jsonPath("$.id").isString())
                     .andExpect(jsonPath("$.description").value("ABC"))
                     .andExpect(jsonPath("$.completed").value(false))
             ;
@@ -188,7 +188,7 @@ class TodoRestControllerIntegrationTest {
                             .contentType(MediaType.APPLICATION_JSON)
                             .accept(MediaType.APPLICATION_JSON))
                     .andExpect(status().isOk())
-                    .andExpect(jsonPath("$.id").isNumber())
+                    .andExpect(jsonPath("$.id").isString())
                     .andExpect(jsonPath("$.description").value("Simple Task"))
                     .andExpect(jsonPath("$.completed").value(true))
             ;

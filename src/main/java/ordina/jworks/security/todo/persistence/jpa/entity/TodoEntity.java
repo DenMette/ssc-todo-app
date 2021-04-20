@@ -2,10 +2,10 @@ package ordina.jworks.security.todo.persistence.jpa.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.time.Instant;
 import java.util.Objects;
+import java.util.UUID;
 
 /**
  * @author Maarten Casteels
@@ -15,8 +15,8 @@ import java.util.Objects;
 public class TodoEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue
+    private UUID id;
 
     private String description;
     private Instant createdAt;
@@ -26,7 +26,7 @@ public class TodoEntity {
     public TodoEntity() {
     }
 
-    public TodoEntity(Long id, String description, Instant createdAt, Instant modifiedAt, boolean completed) {
+    public TodoEntity(UUID id, String description, Instant createdAt, Instant modifiedAt, boolean completed) {
         this.id = id;
         this.description = description;
         this.createdAt = createdAt;
@@ -34,11 +34,11 @@ public class TodoEntity {
         this.completed = completed;
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

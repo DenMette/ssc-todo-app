@@ -4,6 +4,7 @@ import ordina.jworks.security.todo.domain.model.Todo;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 /**
  * @author Maarten Casteels
@@ -16,7 +17,7 @@ public interface TodoPersistenceFacade {
 
     List<Todo> findAll();
 
-    Optional<Todo> findById(Long id);
+    Optional<Todo> findById(UUID id);
 
-    void removeById(Long id);
+    void removeById(UUID id);
 }

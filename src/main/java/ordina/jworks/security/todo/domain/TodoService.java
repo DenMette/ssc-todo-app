@@ -7,6 +7,7 @@ import ordina.jworks.security.todo.persistence.TodoPersistenceFacade;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @author Maarten Casteels
@@ -44,11 +45,11 @@ public class TodoService {
         return this.facade.findAll();
     }
 
-    public Todo findTaskById(Long id) {
+    public Todo findTaskById(UUID id) {
         return this.facade.findById(id).orElseThrow(() -> new RecordNotFoundException("No task found."));
     }
 
-    public void removeTaskById(Long id) {
+    public void removeTaskById(UUID id) {
         this.facade.removeById(id);
     }
 }
