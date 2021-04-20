@@ -81,7 +81,7 @@ class TodoMvcControllerIntegrationTest {
                     .andExpect(status().is3xxRedirection())
                     .andExpect(redirectedUrl("/todo"))
                     .andExpect(view().name("redirect:/todo"))
-                    .andExpect(flash().attribute("task-created", "Task has been created."))
+                    .andExpect(flash().attribute("taskCreated", "Task has been created."))
             ;
 
             assertThat(repository.count()).isEqualTo(1);
@@ -140,7 +140,7 @@ class TodoMvcControllerIntegrationTest {
                     .andExpect(status().is3xxRedirection())
                     .andExpect(redirectedUrl("/todo"))
                     .andExpect(view().name("redirect:/todo"))
-                    .andExpect(flash().attribute("task-created", "Task has been created."))
+                    .andExpect(flash().attribute("taskCreated", "Task has been created."))
             ;
 
             assertThat(repository.count()).isEqualTo(1);
@@ -160,7 +160,7 @@ class TodoMvcControllerIntegrationTest {
                     .andExpect(status().is3xxRedirection())
                     .andExpect(redirectedUrl("/todo"))
                     .andExpect(view().name("redirect:/todo"))
-                    .andExpect(flash().attribute("task-completed", "The task has been marked completed."))
+                    .andExpect(flash().attribute("taskCompleted", "The task has been marked completed."))
             ;
         }
 
@@ -192,7 +192,7 @@ class TodoMvcControllerIntegrationTest {
                     .andExpect(status().is3xxRedirection())
                     .andExpect(redirectedUrl("/todo"))
                     .andExpect(view().name("redirect:/todo"))
-                    .andExpect(flash().attribute("task-removed", "The task has been removed."))
+                    .andExpect(flash().attribute("taskRemoved", "The task has been removed."))
             ;
         }
 
