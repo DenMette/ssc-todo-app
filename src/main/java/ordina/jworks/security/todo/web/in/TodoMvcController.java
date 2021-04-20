@@ -52,7 +52,7 @@ public class TodoMvcController {
         }
 
         this.service.createTask(this.mapper.mapResourceToModel(resource));
-        redirectAttributes.addFlashAttribute("task-created", "Task has been created.");
+        redirectAttributes.addFlashAttribute("taskCreated", "Task has been created.");
         return "redirect:/todo";
     }
 
@@ -61,7 +61,7 @@ public class TodoMvcController {
         final Todo todo = this.service.findTaskById(id);
         this.service.completeTask(todo);
 
-        redirectAttributes.addFlashAttribute("task-completed", "The task has been marked completed.");
+        redirectAttributes.addFlashAttribute("taskCompleted", "The task has been marked completed.");
         return "redirect:/todo";
     }
 
@@ -70,7 +70,7 @@ public class TodoMvcController {
         this.service.findTaskById(id);
         this.service.removeTaskById(id);
 
-        redirectAttributes.addFlashAttribute("task-removed", "The task has been removed.");
+        redirectAttributes.addFlashAttribute("taskRemoved", "The task has been removed.");
         return "redirect:/todo";
     }
 }

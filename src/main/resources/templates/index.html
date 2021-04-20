@@ -21,7 +21,15 @@
             </div>
         </div>
 
-        <div th:if="${flash}" class="alert alert-success" role="alert" th:text="${flash}">
+        <div th:if="${taskCreated}" class="alert alert-success" role="alert" th:text="${taskCreated}">
+            A simple success alert—check it out!
+        </div>
+
+        <div th:if="${taskCompleted}" class="alert alert-primary" role="alert" th:text="${taskCompleted}">
+            A simple success alert—check it out!
+        </div>
+
+        <div th:if="${taskRemoved}" class="alert alert-secondary" role="alert" th:text="${taskRemoved}">
             A simple success alert—check it out!
         </div>
 
