@@ -1,13 +1,16 @@
 package ordina.jworks.security.todo.web.in;
 
 import ordina.jworks.security.todo.domain.TodoService;
-import ordina.jworks.security.todo.domain.model.Todo;
 import ordina.jworks.security.todo.web.in.mapper.TodoResourceMapper;
 import ordina.jworks.security.todo.web.in.resource.CreateTodoResource;
 import ordina.jworks.security.todo.web.in.resource.TodoResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
@@ -58,8 +61,7 @@ public class TodoMvcController {
 
     @PostMapping("/{id}/complete")
     public String complete(@PathVariable("id") UUID id, RedirectAttributes redirectAttributes) {
-        final Todo todo = this.service.findTaskById(id);
-        this.service.completeTask(todo);
+        this.service.completeTask(id);
 
         redirectAttributes.addFlashAttribute("taskCompleted", "The task has been marked completed.");
         return "redirect:/todo";

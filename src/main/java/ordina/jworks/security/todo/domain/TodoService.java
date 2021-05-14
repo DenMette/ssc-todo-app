@@ -6,6 +6,7 @@ import ordina.jworks.security.todo.exception.ValidationException;
 import ordina.jworks.security.todo.persistence.TodoPersistenceFacade;
 import org.springframework.stereotype.Service;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.UUID;
 
@@ -33,12 +34,8 @@ public class TodoService {
         return this.facade.create(task);
     }
 
-    public Todo completeTask(final Todo task) {
-        if (task.getId() == null) {
-            throw new ValidationException("You can't complete the task!");
-        }
-
-        return this.facade.complete(task);
+    public Todo completeTask(@NotNull  final UUID id) {
+        return this.facade.complete(id);
     }
 
     public List<Todo> allTasks() {
@@ -46,7 +43,7 @@ public class TodoService {
     }
 
     public Todo findTaskById(UUID id) {
-        return this.facade.findById(id).orElseThrow(() -> new RecordNotFoundException("No task found."));
+        return this.facade.findById(id).orElseThrow(() -> new RecordNotFoundException(id));
     }
 
     public void removeTaskById(UUID id) {

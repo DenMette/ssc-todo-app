@@ -1,5 +1,6 @@
 package ordina.jworks.security.todo.web.in;
 
+import ordina.jworks.security.todo.exception.RecordNotFoundException;
 import ordina.jworks.security.todo.web.in.resource.ErrorResource;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
@@ -63,6 +64,11 @@ public class ErrorAndExceptionHandlerForRest {
 
     @ExceptionHandler(IllegalArgumentException.class)
     public HttpEntity<ErrorResource> handleIllegalArgumentException(IllegalArgumentException exception) {
+        return handleException(HttpStatus.BAD_REQUEST, exception);
+    }
+
+    @ExceptionHandler(RecordNotFoundException.class)
+    public HttpEntity<ErrorResource> handleRecordNotFoundException(RecordNotFoundException exception) {
         return handleException(HttpStatus.BAD_REQUEST, exception);
     }
 

@@ -51,9 +51,7 @@ public class TodoRestController {
 
     @PutMapping("/{id}/complete")
     public TodoResource completeTaskById(@PathVariable("id") UUID id) {
-        return this.mapper.mapModelToResource(
-                        this.service.completeTask(
-                                this.service.findTaskById(id)));
+        return this.mapper.mapModelToResource(this.service.completeTask(id));
     }
 
     @DeleteMapping("/{id}")

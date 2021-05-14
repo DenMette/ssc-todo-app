@@ -5,6 +5,7 @@ import ordina.jworks.security.todo.persistence.jpa.TodoRepository;
 import ordina.jworks.security.todo.persistence.jpa.entity.TodoEntity;
 import ordina.jworks.security.todo.web.in.resource.CreateTodoResource;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -16,6 +17,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.Instant;
+import java.util.UUID;
 
 import static org.hamcrest.CoreMatchers.startsWith;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -178,6 +180,17 @@ class TodoRestControllerIntegrationTest {
     @Nested
     @DisplayName("Complete a task")
     class TodoCompleted {
+
+        @Disabled("ControllerAdvice not working correctly. MVC handling is done. not sure why.")
+        @Test
+        void completing_non_existing_task_returns_bad_request() throws Exception {
+            mockMvc.perform(
+                    put("/api/todo/" + UUID.randomUUID() + "/complete")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .accept(MediaType.APPLICATION_JSON))
+                   .andExpect(status().isBadRequest())
+            ;
+        }
 
         @Test
         void complete_task_with_redirect() throws Exception {

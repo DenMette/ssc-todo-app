@@ -13,7 +13,7 @@ import java.util.UUID;
 public interface TodoPersistenceFacade {
     Todo create(Todo task);
 
-    Todo complete(Todo task);
+    Todo complete(UUID id);
 
     List<Todo> findAll();
 

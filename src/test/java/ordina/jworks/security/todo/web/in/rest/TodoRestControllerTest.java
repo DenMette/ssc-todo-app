@@ -185,7 +185,7 @@ class TodoRestControllerTest {
         void complete_task_with_redirect() throws Exception {
             final Todo task = new Todo(ID, "ABC", false);
             Mockito.when(todoService.findTaskById(ID)).thenReturn(task);
-            Mockito.when(todoService.completeTask(task)).thenReturn(new Todo(ID, "ABC", true));
+            Mockito.when(todoService.completeTask(ID)).thenReturn(new Todo(ID, "ABC", true));
 
             mockMvc.perform(
                     put("/api/todo/" + UUID_AS_STRING + "/complete")

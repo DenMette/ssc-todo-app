@@ -172,7 +172,7 @@ class TodoMvcControllerIntegrationTest {
                     .andExpect(result ->
                             assertThat(result.getResolvedException())
                                     .isInstanceOf(RecordNotFoundException.class)
-                                    .hasMessage("No task found."))
+                                    .hasMessage("Record with id "+ UUID_AS_STRING + " not found."))
                     .andExpect(view().name("error"))
                     .andExpect(model().attributeExists("exception", "url"))
             ;
@@ -204,7 +204,7 @@ class TodoMvcControllerIntegrationTest {
                     .andExpect(result ->
                             assertThat(result.getResolvedException())
                                     .isInstanceOf(RecordNotFoundException.class)
-                                    .hasMessage("No task found."))
+                                    .hasMessage("Record with id " + UUID_AS_STRING + " not found."))
                     .andExpect(view().name("error"))
                     .andExpect(model().attributeExists("exception", "url"))
             ;

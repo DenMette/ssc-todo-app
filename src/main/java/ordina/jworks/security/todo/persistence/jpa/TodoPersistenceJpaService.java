@@ -1,11 +1,12 @@
 package ordina.jworks.security.todo.persistence.jpa;
 
 import ordina.jworks.security.todo.domain.model.Todo;
+import ordina.jworks.security.todo.exception.RecordNotFoundException;
 import ordina.jworks.security.todo.persistence.TodoPersistenceFacade;
-import ordina.jworks.security.todo.persistence.jpa.entity.TodoEntity;
 import ordina.jworks.security.todo.persistence.jpa.mapper.TodoEntityMapper;
 import org.springframework.stereotype.Service;
 
+import javax.validation.constraints.NotNull;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
@@ -33,13 +34,12 @@ public class TodoPersistenceJpaService implements TodoPersistenceFacade {
     }
 
     @Override
-    public Todo complete(Todo task) {
-        TodoEntity byId = this.repository.findById(task.getId()).get();
-
-        byId.setModifiedAt(Instant.now());
-        byId.setCompleted(true);
-
-        return this.mapper.mapEntityToModel(this.repository.save(byId));
+    public Todo complete(@NotNull UUID id) throws RecordNotFoundException {
+        return this.repository.findById(id).map(byId -> {
+            byId.setModifiedAt(Instant.now());
+            byId.setCompleted(true);
+            return this.mapper.mapEntityToModel(this.repository.save(byId));
+        }).orElseThrow(() -> new RecordNotFoundException(id));
     }
 
     @Override
