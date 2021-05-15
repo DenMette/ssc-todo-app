@@ -20,7 +20,7 @@ import java.util.UUID;
  * @since 2021
  */
 @RestController
-@RequestMapping(value = "/api/todo", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/todo", produces = MediaType.APPLICATION_JSON_VALUE)
 public class TodoRestController {
 
     private final TodoService service;
@@ -36,7 +36,7 @@ public class TodoRestController {
         return this.mapper.mapModelsToResources(service.allTasks());
     }
 
-    @PostMapping({"", "/"})
+    @PostMapping(value = {"", "/"}, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<TodoResource> saveTask(@Valid @RequestBody CreateTodoResource resource) {
         final TodoResource task = this.mapper.mapModelToResource(
                 this.service.createTask(this.mapper.mapResourceToModel(resource)));
@@ -49,7 +49,7 @@ public class TodoRestController {
         return this.mapper.mapModelToResource(this.service.findTaskById(id));
     }
 
-    @PutMapping("/{id}/complete")
+    @PutMapping(value = "/{id}/complete", consumes = MediaType.APPLICATION_JSON_VALUE)
     public TodoResource completeTaskById(@PathVariable("id") UUID id) {
         return this.mapper.mapModelToResource(this.service.completeTask(id));
     }
