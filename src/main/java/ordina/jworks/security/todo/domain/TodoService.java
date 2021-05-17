@@ -34,7 +34,7 @@ public class TodoService {
         return this.facade.create(task);
     }
 
-    public Todo completeTask(@NotNull  final UUID id) {
+    public Todo completeTask(@NotNull final UUID id) {
         return this.facade.complete(id);
     }
 

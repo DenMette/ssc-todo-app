@@ -14,6 +14,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.Collections;
 
@@ -33,6 +34,9 @@ class TodoMvcControllerTest {
 
     @Autowired
     MockMvc mockMvc;
+
+    @MockBean
+    WebClient webClient;
 
     @MockBean
     TodoService todoService;

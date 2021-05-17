@@ -7,14 +7,11 @@ import java.util.UUID;
  */
 public class RecordNotFoundException extends RuntimeException {
 
-    public RecordNotFoundException() {
-    }
-
     public RecordNotFoundException(String message) {
         super(message);
     }
 
     public RecordNotFoundException(UUID id) {
-        super(String. format("Record with id %s not found.", id));
+        this(String.format("Record with id %s not found.", id));
     }
 }
